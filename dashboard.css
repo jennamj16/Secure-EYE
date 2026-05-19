@@ -1,0 +1,128 @@
+/* General Setup */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 15px;
+}
+
+/* Dashboard Grid */
+pre {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    white-space: pre-wrap;
+}
+
+/* Card Styling */
+a {
+    background-color: #1e1e1e;
+    color: white !important;
+    text-decoration: none;
+    height: 160px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+/* 1. Directory Icons (Folders) */
+a[href$="/"]::before {
+    content: "📂";
+    font-size: 45px;
+}
+
+/* 2. Default Video Icon (Before JS loads or if thumb is missing) */
+a[href$=".mp4"]::before {
+    content: "🎬";
+    font-size: 40px;
+}
+
+/* 3. Hide Video Icon when Thumb is loaded */
+a.has-thumb::before {
+    content: "" !important; 
+}
+
+/* 4. HIDE the actual .mp4.thumb links from view */
+a[href$=".mp4.thumb"] {
+    display: none !important;
+}
+
+/* Label Styling */
+.file-label {
+    background: rgba(0, 0, 0, 0.8);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    font-size: 11px;
+    text-align: center;
+    padding: 6px 0;
+    color: #4CAF50; /* Make filename green for visibility */
+}
+
+/* Style for Back Button*/
+a[href^="../"] {
+    grid-column: 1 / -1;
+    height: 50px;
+    background: #2a2a2a;
+}
+a[href^="../"]::before { content: "⬅️"; font-size: 18px; }
+/* Add a play button overlay to video cards */
+/* Container for the video card */
+a.has-thumb {
+    position: relative;
+    display: block;
+    width: 200px; /* Adjust to your grid size */
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+/* The Play Button Overlay */
+.play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(76, 175, 80, 0.85); /* Green overlay */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 10;
+}
+
+a:hover .play-overlay {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: rgba(76, 175, 80, 1);
+}
+
+/* File Label at the bottom */
+.file-label {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    padding: 5px 0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}

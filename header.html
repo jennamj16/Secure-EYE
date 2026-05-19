@@ -1,0 +1,47 @@
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/.style/dashboard.css">
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const links = Array.from(document.querySelectorAll('a'));
+    
+    // Get the current folder from the URL (e.g., /2026-02-06/)
+    // This removes the leading slash and trailing slash to get a clean path
+    let currentFolder = window.location.pathname.split('/').filter(Boolean).join('/');
+    if (currentFolder) currentFolder += '/';
+
+    links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+
+        // Process Encrypted Files
+        if (href.endsWith('.enc')) {
+            const fileName = href.replace('.enc', '');
+            const fullPath = currentFolder + fileName;
+
+            // Update the link to point to the unlocker with the full relative path
+            link.setAttribute('href', '/unlock.php?file=' + encodeURIComponent(fullPath));
+
+            // Inject UI: Play button and Label
+            const displayName = fileName.split('/').pop(); // Just the filename for the label
+            link.innerHTML = `
+                <span class="play-overlay">▶</span>
+                <span class="file-label">🔒 ${displayName}</span>
+            `;
+
+            // Thumbnail logic
+            const thumbName = fileName + '.thumb';
+            const thumbLink = links.find(l => l.getAttribute('href') === thumbName);
+            if (thumbLink) {
+                link.style.backgroundImage = `url('${thumbLink.href}')`;
+                link.classList.add('has-thumb');
+            }
+        } 
+        
+        // Hide technical files
+        if (href.endsWith('.thumb') || href.endsWith('.sig') || href === 'unlock.php') {
+            link.style.display = 'none';
+        }
+    });
+});
+</script>
